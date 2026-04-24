@@ -29474,14 +29474,6 @@ module.exports = eval("require")("./index.win32-x64-msvc.node");
 
 /***/ }),
 
-/***/ 7485:
-/***/ ((module) => {
-
-module.exports = eval("require")("@actions/exec");
-
-
-/***/ }),
-
 /***/ 5505:
 /***/ ((module) => {
 
@@ -32903,14 +32895,14 @@ var exec_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arg
  */
 function exec_exec(commandLine, args, options) {
     return exec_awaiter(this, void 0, void 0, function* () {
-        const commandArgs = tr.argStringToArray(commandLine);
+        const commandArgs = argStringToArray(commandLine);
         if (commandArgs.length === 0) {
             throw new Error(`Parameter 'commandLine' cannot be null or empty.`);
         }
         // Path to tool to execute should be first arg
         const toolPath = commandArgs[0];
         args = commandArgs.slice(1).concat(args || []);
-        const runner = new tr.ToolRunner(toolPath, args, options);
+        const runner = new ToolRunner(toolPath, args, options);
         return runner.exec();
     });
 }
@@ -37658,8 +37650,6 @@ function getOctokit(token, options, ...additionalPlugins) {
     return new GitHubWithPlugins(getOctokitOptions(token, options));
 }
 //# sourceMappingURL=github.js.map
-// EXTERNAL MODULE: ./node_modules/.pnpm/@vercel+ncc@0.38.4/node_modules/@vercel/ncc/dist/ncc/@@notfound.js?@actions/exec
-var _notfound_actions_exec = __nccwpck_require__(7485);
 // EXTERNAL MODULE: ./node_modules/.pnpm/@qbitone+makimono@0.1.2/node_modules/@qbitone/makimono/index.js
 var makimono = __nccwpck_require__(9340);
 ;// CONCATENATED MODULE: ./src/index.js
@@ -37694,19 +37684,19 @@ async function run() {
     const content = (0,makimono.generateContent)(changelog, newLine);
     external_fs_default().writeFileSync('README.md', content, 'utf8');
 
-    await (0,_notfound_actions_exec.exec)('git', ['status', '--porcelain']);
-    await (0,_notfound_actions_exec.exec)('git', ['config', 'user.name', 'github-actions[bot]']);
-    await (0,_notfound_actions_exec.exec)('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
-    await (0,_notfound_actions_exec.exec)('git', ['add', "README.md"]);
+    await exec_exec('git', ['status', '--porcelain']);
+    await exec_exec('git', ['config', 'user.name', 'github-actions[bot]']);
+    await exec_exec('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
+    await exec_exec('git', ['add', "README.md"]);
 
-    const exitCode = await (0,_notfound_actions_exec.exec)('git', ['diff', '--cached', '--quiet'], { ignoreReturnCode: true });
+    const exitCode = await exec_exec('git', ['diff', '--cached', '--quiet'], { ignoreReturnCode: true });
     if (exitCode === 0) {
       info("No changes to commit.");
       return;
     }
 
-    await (0,_notfound_actions_exec.exec)('git', ['commit', '-m', 'docs: update release notes', '-m', '[skip ci]']);
-    await (0,_notfound_actions_exec.exec)('git', ['push']);
+    await exec_exec('git', ['commit', '-m', 'docs: update release notes', '-m', '[skip ci]']);
+    await exec_exec('git', ['push']);
 
     info("Change committed and pushed successfully.");
 

@@ -11,6 +11,9 @@ importers:
       '@actions/core':
         specifier: 3.0.1
         version: 3.0.1
+      '@actions/exec':
+        specifier: 3.0.0
+        version: 3.0.0
       '@actions/github':
         specifier: 9.1.1
         version: 9.1.1
@@ -19,7 +22,7 @@ importers:
         version: 0.1.2
     devDependencies:
       '@vercel/ncc':
-        specifier: ^0.38.4
+        specifier: 0.38.4
         version: 0.38.4
 
 packages:
