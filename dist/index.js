@@ -37681,7 +37681,7 @@ async function run() {
     info(`Add new line: ${newLine}`);
 
     const changelog = external_fs_default().readFileSync('README.md', 'utf8');
-    const content = (0,makimono.generateContent)(changelog, newLine);
+    const content = (0,makimono.generateContent)(changelog, newLine, []);
     external_fs_default().writeFileSync('README.md', content, 'utf8');
 
     await exec_exec('git', ['status', '--porcelain']);

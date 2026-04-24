@@ -26,7 +26,7 @@ async function run() {
     core.info(`Add new line: ${newLine}`);
 
     const changelog = fs.readFileSync('README.md', 'utf8');
-    const content = generateContent(changelog, newLine);
+    const content = generateContent(changelog, newLine, []);
     fs.writeFileSync('README.md', content, 'utf8');
 
     await exec('git', ['status', '--porcelain']);
