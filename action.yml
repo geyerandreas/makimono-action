@@ -1,11 +1,11 @@
-name: makimono-action
-description: "Update the release notes with your latest change."
-author: Andreas Geyer <andreas@qbitone.de>
-
-runs:
-  using: node24
-  main: dist/index.js
+name: 'makimono-action'
+description: 'Update the release notes with your latest change.'
+author: 'Andreas Geyer <andreas@qbitone.de>'
 
 branding:
-  icon: edit
-  color: blue
+  icon: 'edit'
+  color: 'blue'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'
