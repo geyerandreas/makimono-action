@@ -32,7 +32,7 @@ async function run() {
     const options = {
       startHeader: core.getInput('start_header'),
       labelHeaderPrefix: core.getInput('label_header_prefix'),
-      labels: core.getInput('registered_labels'),
+      labels: JSON.parse(core.getInput('registered_labels')),
       endRegex: core.getInput('end_regex'),
     };
     const content = generateContent(changelog, newLine, labels, options);
