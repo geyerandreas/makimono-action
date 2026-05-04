@@ -8,6 +8,7 @@ async function run() {
   try {
     const context = github.context;
     const pr = context.payload.pull_request;
+    const release_notes_file = core.getInput('release_notes_file');
 
     // Is this action running in a pull request context?
     if (!pr) {
@@ -25,14 +26,14 @@ async function run() {
     
     core.info(`Add new line: ${newLine}`);
 
-    const changelog = fs.readFileSync('README.md', 'utf8');
+    const changelog = fs.readFileSync(release_notes_file, 'utf8');
     const content = generateContent(changelog, newLine, []);
-    fs.writeFileSync('README.md', content, 'utf8');
+    fs.writeFileSync(release_notes_file, content, 'utf8');
 
     await exec('git', ['status', '--porcelain']);
     await exec('git', ['config', 'user.name', 'github-actions[bot]']);
     await exec('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
-    await exec('git', ['add', "README.md"]);
+    await exec('git', ['add', release_notes_file]);
 
     const exitCode = await exec('git', ['diff', '--cached', '--quiet'], { ignoreReturnCode: true });
     if (exitCode === 0) {
