@@ -27,11 +27,11 @@ inputs:
         {"label": "docs", "header": "Docs"},
         {"label": "feature", "header": "Features"},
         {"label": "infra", "header": "Infrastructure"},
-        {"label": "internal", "header": "Internal"}
+        {"label": "internal", "header": "Internal"},
         {"label": "lang", "header": "Translations"},
         {"label": "refactor", "header": "Refactors"},
         {"label": "security", "header": "Security Fixes"},
-        {"label": "upgrade", "header": "Upgrades"},
+        {"label": "upgrade", "header": "Upgrades"}
       ]
     required: false
 

@@ -37677,18 +37677,26 @@ async function run() {
     const login = pr.user.login;
     const userUrl = pr.user.html_url;
 
+    const labels = pr.labels.map(label => label.name);
+
     const newLine = `* ${title}. PR [#${number}](${url}) by [@${login}](${userUrl}).`;
-    
     info(`Add new line: ${newLine}`);
 
     const changelog = external_fs_default().readFileSync(release_notes_file, 'utf8');
-    const content = (0,makimono.generateContent)(changelog, newLine, []);
+
+    const options = {
+      startHeader: getInput('start_header'),
+      labelHeaderPrefix: getInput('label_header_prefix'),
+      labels: getInput('registered_labels'),
+      endRegex: getInput('end_regex'),
+    };
+    const content = (0,makimono.generateContent)(changelog, newLine, labels, options);
     external_fs_default().writeFileSync(release_notes_file, content, 'utf8');
 
     await exec_exec('git', ['status', '--porcelain']);
     await exec_exec('git', ['config', 'user.name', 'github-actions[bot]']);
     await exec_exec('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
-    await exec_exec('git', ['add', "README.md"]);
+    await exec_exec('git', ['add', release_notes_file]);
 
     const exitCode = await exec_exec('git', ['diff', '--cached', '--quiet'], { ignoreReturnCode: true });
     if (exitCode === 0) {
