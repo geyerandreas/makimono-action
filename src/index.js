@@ -22,12 +22,20 @@ async function run() {
     const login = pr.user.login;
     const userUrl = pr.user.html_url;
 
+    const labels = pr.labels.map(label => label.name);
+
     const newLine = `* ${title}. PR [#${number}](${url}) by [@${login}](${userUrl}).`;
-    
     core.info(`Add new line: ${newLine}`);
 
     const changelog = fs.readFileSync(release_notes_file, 'utf8');
-    const content = generateContent(changelog, newLine, []);
+
+    const options = {
+      startHeader: core.getInput('start_header'),
+      labelHeaderPrefix: core.getInput('label_header_prefix'),
+      labels: core.getInput('labels'),
+      endRegex: core.getInput('end_regex'),
+    };
+    const content = generateContent(changelog, newLine, labels, options);
     fs.writeFileSync(release_notes_file, content, 'utf8');
 
     await exec('git', ['status', '--porcelain']);
