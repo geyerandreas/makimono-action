@@ -3,8 +3,36 @@ description: "Update the release notes with your latest change."
 author: "Andreas Geyer <andreas@qbitone.de>"
 inputs:
   release_notes_file:
-    default: "README.md"
     description: "The file to update with the release notes."
+    default: "README.md"
+    required: false
+  start_header:
+    description: Header to search for in the release notes file.
+    default: "### Latest Changes"
+    required: false
+  label_header_prefix:
+    description: Prefix for label headers in the release notes file.
+    default: "#### "
+    required: false
+  end_regex:
+    description: Regular expression to determine the end of the section to update.
+    default: "(?m)(^### .*)|(^## .*)"
+    required: false
+  registered_labels:
+    description: A JSON array of labels to include in the release notes.
+    default: >
+      [
+        {"label": "breaking", "header": "Breaking Changes"},
+        {"label": "bug", "header": "Fixes"},
+        {"label": "docs", "header": "Docs"},
+        {"label": "feature", "header": "Features"},
+        {"label": "infra", "header": "Infrastructure"},
+        {"label": "internal", "header": "Internal"},
+        {"label": "lang", "header": "Translations"},
+        {"label": "refactor", "header": "Refactors"},
+        {"label": "security", "header": "Security Fixes"},
+        {"label": "upgrade", "header": "Upgrades"}
+      ]
     required: false
 
 branding:
