@@ -1,6 +1,11 @@
 name: "makimono-action"
 description: "Update the release notes with your latest change."
 author: "Andreas Geyer <andreas@qbitone.de>"
+inputs:
+  release_notes_file:
+    default: "README.md"
+    description: "The file to update with the release notes."
+    required: false
 
 branding:
   icon: "edit"

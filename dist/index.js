@@ -37663,6 +37663,7 @@ async function run() {
   try {
     const context = github_context;
     const pr = context.payload.pull_request;
+    const release_notes_file = getInput('release_notes_file');
 
     // Is this action running in a pull request context?
     if (!pr) {
@@ -37680,9 +37681,9 @@ async function run() {
     
     info(`Add new line: ${newLine}`);
 
-    const changelog = external_fs_default().readFileSync('README.md', 'utf8');
+    const changelog = external_fs_default().readFileSync(release_notes_file, 'utf8');
     const content = (0,makimono.generateContent)(changelog, newLine, []);
-    external_fs_default().writeFileSync('README.md', content, 'utf8');
+    external_fs_default().writeFileSync(release_notes_file, content, 'utf8');
 
     await exec_exec('git', ['status', '--porcelain']);
     await exec_exec('git', ['config', 'user.name', 'github-actions[bot]']);
