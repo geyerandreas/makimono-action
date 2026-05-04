@@ -37687,7 +37687,7 @@ async function run() {
     const options = {
       startHeader: getInput('start_header'),
       labelHeaderPrefix: getInput('label_header_prefix'),
-      labels: getInput('registered_labels'),
+      labels: JSON.parse(getInput('registered_labels')),
       endRegex: getInput('end_regex'),
     };
     const content = (0,makimono.generateContent)(changelog, newLine, labels, options);
