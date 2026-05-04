@@ -33,7 +33,7 @@ async function run() {
     await exec('git', ['status', '--porcelain']);
     await exec('git', ['config', 'user.name', 'github-actions[bot]']);
     await exec('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
-    await exec('git', ['add', "README.md"]);
+    await exec('git', ['add', release_notes_file]);
 
     const exitCode = await exec('git', ['diff', '--cached', '--quiet'], { ignoreReturnCode: true });
     if (exitCode === 0) {
