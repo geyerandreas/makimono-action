@@ -37652,70 +37652,58 @@ function getOctokit(token, options, ...additionalPlugins) {
 //# sourceMappingURL=github.js.map
 // EXTERNAL MODULE: ./node_modules/.pnpm/@qbitone+makimono@0.1.2/node_modules/@qbitone/makimono/index.js
 var makimono = __nccwpck_require__(9340);
-;// CONCATENATED MODULE: ./src/index.js
-
+;// CONCATENATED MODULE: ./src/index.ts
 
 
 
 
 
 async function run() {
-  try {
-    const context = github_context;
-    const pr = context.payload.pull_request;
-    const release_notes_file = getInput('release_notes_file');
-
-    // Is this action running in a pull request context?
-    if (!pr) {
-      info("No PR, nothing to do.");
-      return;
+    try {
+        const context = github_context;
+        const pr = context.payload.pull_request;
+        const release_notes_file = getInput('release_notes_file');
+        // Is this action running in a pull request context?
+        if (!pr) {
+            info("No PR, nothing to do.");
+            return;
+        }
+        const title = pr.title;
+        const number = pr.number;
+        const url = pr.html_url;
+        const login = pr.user.login;
+        const userUrl = pr.user.html_url;
+        const labels = (pr.labels || []).map((label) => label.name);
+        const newLine = `* ${title}. PR [#${number}](${url}) by [@${login}](${userUrl}).`;
+        info(`Add new line: ${newLine}`);
+        const changelog = external_fs_default().readFileSync(release_notes_file, 'utf8');
+        const options = {
+            startHeader: getInput('start_header'),
+            labelHeaderPrefix: getInput('label_header_prefix'),
+            labels: JSON.parse(getInput('registered_labels')),
+            endRegex: getInput('end_regex'),
+        };
+        const content = (0,makimono.generateContent)(changelog, newLine, labels, options);
+        external_fs_default().writeFileSync(release_notes_file, content, 'utf8');
+        await exec_exec('git', ['status', '--porcelain']);
+        await exec_exec('git', ['config', 'user.name', 'github-actions[bot]']);
+        await exec_exec('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
+        await exec_exec('git', ['add', release_notes_file]);
+        const exitCode = await exec_exec('git', ['diff', '--cached', '--quiet'], { ignoreReturnCode: true });
+        if (exitCode === 0) {
+            info("No changes to commit.");
+            return;
+        }
+        await exec_exec('git', ['commit', '-m', 'docs: update release notes', '-m', '[skip ci]']);
+        await exec_exec('git', ['push']);
+        info("Change committed and pushed successfully.");
     }
-
-    const title = pr.title;
-    const number = pr.number;
-    const url = pr.html_url;
-    const login = pr.user.login;
-    const userUrl = pr.user.html_url;
-
-    const labels = pr.labels.map(label => label.name);
-
-    const newLine = `* ${title}. PR [#${number}](${url}) by [@${login}](${userUrl}).`;
-    info(`Add new line: ${newLine}`);
-
-    const changelog = external_fs_default().readFileSync(release_notes_file, 'utf8');
-
-    const options = {
-      startHeader: getInput('start_header'),
-      labelHeaderPrefix: getInput('label_header_prefix'),
-      labels: JSON.parse(getInput('registered_labels')),
-      endRegex: getInput('end_regex'),
-    };
-    const content = (0,makimono.generateContent)(changelog, newLine, labels, options);
-    external_fs_default().writeFileSync(release_notes_file, content, 'utf8');
-
-    await exec_exec('git', ['status', '--porcelain']);
-    await exec_exec('git', ['config', 'user.name', 'github-actions[bot]']);
-    await exec_exec('git', ['config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
-    await exec_exec('git', ['add', release_notes_file]);
-
-    const exitCode = await exec_exec('git', ['diff', '--cached', '--quiet'], { ignoreReturnCode: true });
-    if (exitCode === 0) {
-      info("No changes to commit.");
-      return;
+    catch (error) {
+        if (error instanceof Error) {
+            setFailed(`Action failed: ${error.message}`);
+        }
     }
-
-    await exec_exec('git', ['commit', '-m', 'docs: update release notes', '-m', '[skip ci]']);
-    await exec_exec('git', ['push']);
-
-    info("Change committed and pushed successfully.");
-
-  } catch (error) {
-    if (error instanceof Error) {
-      setFailed(`Action failed: ${error.message}`);
-    }
-  }
 }
-
 run();
 
 })();

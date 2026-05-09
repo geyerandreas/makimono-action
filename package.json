@@ -2,8 +2,10 @@
   "name": "makimono-action",
   "version": "0.1.3",
   "scripts": {
-    "build": "ncc build src/index.js -o dist"
+    "build": "ncc build src/index.ts -o dist",
+    "ts-build": "tsc --noEmit"
   },
+  "main": "dist/index.js",
   "keywords": [],
   "author": "",
   "license": "MIT",
@@ -15,6 +17,8 @@
     "@qbitone/makimono": "0.1.2"
   },
   "devDependencies": {
-    "@vercel/ncc": "0.38.4"
+    "@types/node": "25.6.0",
+    "@vercel/ncc": "0.38.4",
+    "typescript": "6.0.3"
   }
 }
