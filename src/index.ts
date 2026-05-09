@@ -4,7 +4,7 @@ import { exec } from '@actions/exec';
 import fs from 'fs';
 import { generateContent } from '@qbitone/makimono';
 
-async function run() {
+async function run(): Promise<void> {
   try {
     const context = github.context;
     const pr = context.payload.pull_request;
@@ -22,7 +22,7 @@ async function run() {
     const login = pr.user.login;
     const userUrl = pr.user.html_url;
 
-    const labels = pr.labels.map(label => label.name);
+    const labels: string[] = (pr.labels || []).map((label: any) => label.name);
 
     const newLine = `* ${title}. PR [#${number}](${url}) by [@${login}](${userUrl}).`;
     core.info(`Add new line: ${newLine}`);
