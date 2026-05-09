@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v6
           
       - name: Update Release Notes
-        uses: geyerandreas/makimono-action@v0.1.3
+        uses: geyerandreas/makimono-action@v0.1.4
 ```
 
 ## Important: Push Permissions
