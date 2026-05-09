@@ -3,7 +3,8 @@
   "version": "0.1.4",
   "scripts": {
     "build": "ncc build src/index.ts -o dist",
-    "ts-build": "tsc --noEmit"
+    "ts-build": "tsc --noEmit",
+    "bump": "node scripts/bump.js"
   },
   "main": "dist/index.js",
   "keywords": [],
