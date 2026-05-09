@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const version = process.argv[2];
 
 if (!version) {
-  console.error('Usage: node scripts/bump.js <semver>');
+  console.error('Usage: node scripts/bump.mjs <semver>');
   process.exit(1);
 }
 
